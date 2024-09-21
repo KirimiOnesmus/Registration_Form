@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/69441e8ec6.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="form">
+        <h2>Registration</h2>
+        <form action="" onsubmit="return validateRegistration(event)">
+            <div class="input">
+                <label for="name">Full Name:</label>
+                <input type="text" name="name" id="name" placeholder="Full Name" required/>
+            </div>
+            <div class="input">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Email Address" required/>
+            </div>
+            <div class="input">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Password" required/>
+            </div>
+            <div class="input">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required/>
+            </div>
+            <div class="input">
+                <label for="age">Age:</label>
+                <input type="number" name="age" required id="age"/>
+            </div>
+            <div class="radio">
+                <input type="radio" name="gender" required value="male"/>
+                <label for="male">Male</label>
+                <input type="radio" name="gender" required value="female"/>
+                <label for="female">Female</label>
+            </div>
+            <div class="country">
+                <label for="country">Country:</label>
+                <select name="Country" required id="country">
+                    <option value="">Select Your Country</option>
+                    <option value="kenya">Kenya</option>
+                    <option value="uganda">Uganda</option>
+                    <option value="tanzania">Tanzania</option>
+                    <option value="nigeria">Nigeria</option>
+                    <option value="rwanda">Rwanda</option>
+                    <option value="ghana">Ghana</option>
+                </select>
+            </div>
+            <div class="terms">
+                <input type="checkbox" name="terms" id="terms"/>
+                <label for="terms">Terms and Conditions</label>
+            </div>
+            <button type="submit" class="btn">Register</button>
+            <p>You already have an account? <a href="./login.html">Login</a></p>
+            <div id="errorMessage" style="color:red;"></div>
+        </form>
+    </div>
+
+    <script>
+        function validateRegistration(event) {
+            event.preventDefault(); // Prevent form submission until validation passes
+            let errorMessage = [];
+
+            // Name validation
+            let name = document.getElementById("name").value;
+            if (!name) {
+                errorMessage.push("Name is required!");
+            }
+
+            // Email validation
+            let email = document.getElementById("email").value;
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                errorMessage.push("Please enter a valid email address!");
+            }
+
+            // Password validation
+            let password = document.getElementById('password').value;
+            if (password.length < 8) {
+                errorMessage.push("Password must be at least 8 characters long!");
+            }
+
+            // Confirm Password validation
+            let confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                errorMessage.push("Passwords do not match!");
+            }
+
+            // Age validation
+            let age = document.getElementById('age').value;
+            if (isNaN(age) || age < 18) {
+                errorMessage.push("Please enter a valid age (must be 18 or older)!");
+            }
+
+            // Gender validation
+            if (!document.querySelector('input[name=gender]:checked')) {
+                errorMessage.push("Please select your gender!");
+            }
+
+            // Country validation
+            let country = document.getElementById('country').value;
+            if (!country) {
+                errorMessage.push("Please select your country!");
+            }
+
+            // Terms and conditions validation
+            if (!document.getElementById('terms').checked) {
+                errorMessage.push("You must agree to the terms and conditions!");
+            }
+
+            // Displaying the error messages
+            let errorDisplay = document.getElementById("errorMessage");
+            if (errorMessage.length > 0) {
+                errorDisplay.innerHTML = errorMessage.join("<br>");
+            } else {
+                errorDisplay.innerHTML = "";
+                alert("Registration successful!");  // Perform successful registration actions here
+            }
+        }
+    </script>
+</body>
+</html>
